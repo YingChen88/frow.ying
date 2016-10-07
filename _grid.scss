@@ -1,0 +1,298 @@
+﻿// Grid system
+
+// --------------------------------------------------------------------
+// section 1: mostly original grid-related code from frow.css
+
+// Centered container element
+.frow-container {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: $grid-gutter-width / 2;
+    padding-right: $grid-gutter-width / 2;
+}
+@media (min-width: 768px) {
+    .frow-container {
+        width: 750px;
+    }
+}
+@media (min-width: 992px) {
+    .frow-container {
+        width: 970px;
+    }
+}
+@media (min-width: 1200px) {
+    .frow-container {
+        width: 1170px;
+    }
+}
+
+// Flexible row
+//
+// Flexible rows contain your columns.
+
+.frow {
+    // @extend .row;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;  //was: center;
+    align-content: flex-start;
+
+    &.gutters {
+        margin-left: -$grid-gutter-width / 2;
+        margin-right: -$grid-gutter-width / 2;
+
+        &>* {
+            padding-left: $grid-gutter-width / 2;
+            padding-right: $grid-gutter-width / 2;
+        }
+    }
+
+    // &>*:last-child {
+    //     float: none;
+    // }
+
+    // &>div>img {
+    //     width: 100%;
+    // }
+
+    // &>div, &>img {
+    //     height: 100%;
+    // }
+
+    // Shortcuts
+    &.centered {
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        height: 100%;
+    }
+    &.centered-column {
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        flex-direction: column;
+        height: 100%;
+    }
+    &.row-start {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+    &.row-center {
+        flex-direction: row;
+        justify-content: center;
+    }
+    &.row-end {
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+    &.column-start {
+        flex-direction: column;
+        align-items: flex-start;
+        align-content: flex-start;
+        justify-content: flex-start;
+    }
+    &.column-center {
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+        justify-content: flex-start;
+    }
+    &.column-end {
+        flex-direction: column;
+        align-items: flex-end;
+        align-content: flex-end;
+        justify-content: flex-start;
+    }
+
+    // Wrap
+    &.wrap {
+        flex-wrap: wrap;
+    }
+    &.wrap-reverse {
+        flex-wrap: wrap-reverse;;
+    }
+    &.nowrap {
+        flex-wrap: nowrap;
+    }
+
+    // Flex-direction
+    &.direction-row {
+        flex-direction: row;
+    }
+    &.direction-reverse {
+        flex-direction: row-reverse;
+    }
+    &.direction-column {
+        flex-direction: column;
+    }
+    &.direction-column-reverse {
+        flex-direction: column-reverse;
+    }
+
+    // Justify-content
+    &.justify-start {
+        justify-content: flex-start;
+    }
+    &.justify-end {
+        justify-content: flex-end;
+    }
+    &.justify-center {
+        justify-content: center;
+    }
+    &.justify-between {
+        justify-content: space-between;
+    }
+    &.justify-around {
+        justify-content: space-around;
+    }
+
+    // Align-items
+    &.items-start {
+        align-items: flex-start;
+    }
+    &.items-end {
+        align-items: flex-end;
+    }
+    &.items-center {
+        align-items: center;
+    }
+    &.items-stretch {
+        align-items: stretch;
+    }
+    &.items-baseline {
+        align-items: baseline;
+    }
+
+    // Align-content
+    &.content-start {
+        align-content: flex-start;
+    }
+    &.content-end {
+        align-content: flex-end;
+    }
+    &.content-center {
+        align-content: center;
+    }
+    &.content-between {
+        align-content: space-between;;
+    }
+    &.content-around {
+        align-content: space-around;
+    }
+}
+
+// Columns
+//
+// Generate the various columns widths.
+
+$sizes: map-merge($sizes-mobile, $sizes-desktop);
+$sizes-names: map-keys($sizes);
+
+$all-columns: ();
+@for $denominator from 1 through $grid-max-columns {
+    @for $numerator from 1 through $denominator {
+      @each $size in $sizes-names {
+        $all-columns: append($all-columns,
+            '.col-#{$size}-#{$numerator}-#{$denominator}',
+                comma);
+        }
+    }
+}
+#{$all-columns} {
+    width:100%;
+}
+
+@each $size in $sizes-names {
+    @media (min-width: map-get($sizes, $size)) {
+        @for $denominator from 1 through $grid-max-columns {
+            @for $numerator from 1 through $denominator {
+                .col-#{$size}-#{$numerator}-#{$denominator} {
+                    width: percentage($numerator/$denominator);
+                }
+            }
+        }
+    }
+}
+
+
+// --------------------------------------------------------------------
+// section 2: all the following is new code section by Ying Chen
+//            added fitem fitem-*  fborder
+
+.frow>* {
+    margin: 0px;
+    padding: 5px;
+}
+
+.frow.fborder>* {
+    border: 1px dashed black;
+}
+
+
+/* my fitem */
+
+.fitem,
+.fitem-10th,
+.fitem-5th,
+.fitem-1,
+.fitem-2,
+.fitem-3,
+.fitem-4,
+.fitem-5,
+.fitem-6,
+.fitem-7,
+.fitem-8,
+.fitem-9,
+.fitem-10 {
+    flex: 1 1 0px;
+    margin: 0px;
+    padding: 5px;
+}
+
+.fitem-10th {
+    flex: 0.1 0.1 0px;
+}
+
+.fitem-5th {
+    flex: 0.5 0.5 0px;
+}
+
+.fitem-1 {
+    flex: 1 1 0px;
+}
+
+.fitem-2 {
+    flex: 2 2 0px;
+}
+
+.fitem-3 {
+    flex: 3 3 0px;
+}
+
+.fitem-4 {
+    flex: 4 4 0px;
+}
+
+.fitem-5 {
+    flex: 5 5 0px;
+}
+
+.fitem-6 {
+    flex: 6 6 0px;
+}
+
+.fitem-7 {
+    flex: 7 7 0px;
+}
+
+.fitem-8 {
+    flex: 8 8 0px;
+}
+
+.fitem-9 {
+    flex: 9 9 0px;
+}
+
+.fitem-10 {
+    flex: 10 10 0px;
+}
